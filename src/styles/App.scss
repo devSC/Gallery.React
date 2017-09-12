@@ -1,41 +1,64 @@
 /* Base Application Styles */
 html, body {
-  width: 100%;
-  height: 100%;
-  background-color: #222;
+    width: 100%;
+    height: 100%;
+    background-color: #222;
 }
 
 .content {
-  width: 100%;
-  height: 100%;
+    width: 100%;
+    height: 100%;
 }
 
 /* stage -- start */
 .stage {
-  position: relative;
-  width: 100%;
-  height: 680px;
+    position: relative;
+    width: 100%;
+    height: 680px;
 }
 /* stage -- end */
 
 /* image -- start */
 .img-sec {
-  position: relative;
-  width: 100%;
-  height: 100%;
+    position: relative;
+    width: 100%;
+    height: 100%;
 
-  overflow: hidden;
-  background-color: #ddd;
+    overflow: hidden;
+    background-color: #ddd;
+
+    //scss的命令, 将其中的内容在最终生成时提到结构的最外层
+    @at-root {
+        .img-figure {
+            position: absolute;
+            width: 320px;
+            height: 360px;
+            margin: 0;
+            padding: 40px;
+            background-color: #fff;
+            box-sizing: border-box;
+        }
+
+
+        figcaption {
+            text-align: center;
+            .img-title {
+                margin: 20px 0 0 0;
+                color: #a7a0a2;
+                font-size: 16px;
+            }
+        }
+    }
 }
 /* image -- end */
 
 /* controller --start */
 .controller-nav {
-  position: absolute;
-  left: 0;
-  bottom: 30px;
-  z-index: 101;
-  width: 100%;
-  text-align: center;
+    position: absolute;
+    left: 0;
+    bottom: 30px;
+    z-index: 101;
+    width: 100%;
+    text-align: center;
 }
 /* controller --end */

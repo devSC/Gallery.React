@@ -41,7 +41,8 @@ class AppComponent extends React.Component {
         <section className="stage">
           <section className="img-sec">
           </section>
-          <nav className="controller-nav"></nav>
+          <nav className="controller-nav">
+          </nav>
         </section>
     );
   }

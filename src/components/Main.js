@@ -58,6 +58,13 @@ class ImageFigure extends React.Component {
 			styleObj = this.props.arrange.pos;
 		}
 		
+		//如果图片的旋转角度有值并且不为0, 添加旋转角度
+		if (this.props.arrange.rotate) {
+			['-moz', '-ms-', '-webkit-', ''].forEach(function (value) {
+				styleObj[value + 'transform'] = 'rotate(' + this.props.arrange.rotate + 'deg)';
+			}.bind(this))
+		}
+		
 		const {data} = this.props;
 		return (
 			<figure className="img-figure" style={styleObj} ref ="figure">
@@ -170,9 +177,10 @@ class AppComponent extends React.Component {
 			imgsArrangeArr: [
 				/*{
 				 pos: {
-				 left: '0',
-				 top: '0'
-				 }
+				    left: '0',
+				    top: '0'
+				 },
+				 rotate: 0,
 				 }
 				 */
 			]
@@ -197,15 +205,10 @@ class AppComponent extends React.Component {
 				topY: [0, 0]
 			}
 		};
-		
-		console.log("***********constructor:");
 	}
 	
 	//组件加载后为每张图片计算其位置的范围
 	componentDidMount() {
-		
-		console.log("componentDidMount:")
-		
 		//首先拿到舞台大小
 		var stageDOM = this.refs.stage,
 			stageW = stageDOM.scrollWidth,
@@ -257,7 +260,8 @@ class AppComponent extends React.Component {
 					pos: {
 						left: 0,
 						top: 0,
-					}
+					},
+					rotate: 0,
 				}
 			}
 			imageFigures.push(<ImageFigure key={index} data = {value} ref={'imgFigure' + index} arrange={this.state.imgsArrangeArr[index]} center={this.center(index)}/>)

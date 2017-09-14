@@ -51,7 +51,7 @@ function get30DegRandom() {
 class ImageFigure extends React.Component {
 	
 	handleClick = (element) => {
-		if (this.props.isCenter) {
+		if (this.props.arrange.isCenter) {
 			this.props.inverse();
 		}
 		else {
@@ -99,6 +99,40 @@ class ImageFigure extends React.Component {
 				</figcaption>
 			</figure>
 		)
+	}
+}
+
+class ControllerUtils extends React.Component {
+	
+	handleClick = (e) => {
+		// 如果点击的是当前正在选中态的按钮，则翻转图片，否则将对应的图片居中
+		if (this.props.arrange.isCenter) {
+			this.props.inverse();
+		} else {
+			this.props.center();
+		}
+		
+		e.preventDefault;
+		e.stopPropagation();
+	}
+	
+	render() {
+		var controlelrUnitClassName = "controller-unit";
+		
+		// 如果对应的是居中的图片，显示控制按钮的居中态
+		if (this.props.arrange.isCenter) {
+			controlelrUnitClassName += " is-center";
+			
+			// 如果同时对应的是翻转图片， 显示控制按钮的翻转态
+			if (this.props.arrange.isInverse) {
+				controlelrUnitClassName += " is-inverse";
+			}
+		}
+		
+		return (
+			<span className={controlelrUnitClassName} onClick={this.handleClick}>
+			</span>
+		);
 	}
 }
 
@@ -159,8 +193,6 @@ class AppComponent extends React.Component {
 			imgH = imgFigureDOM.scrollHeight,
 			halfImgW = imgW / 2,
 			halfImgH = imgH / 2;
-		
-		console.log("imgFigureDOM: ", imgFigureDOM);
 		
 		this.Constant.centerPos = {
 			left: halfStageW - halfImgW,
@@ -267,6 +299,9 @@ class AppComponent extends React.Component {
 			
 		}
 		
+		//当进入检查模式后 停止执行, 在当前点开始调试
+		debugger;
+		
 		if (imgsArrangeTopArr && imgsArrangeTopArr[0]) {
 			imgsArrangeArr.splice(topImgSpliceIndex, 0, imgsArrangeTopArr[0]);
 		}
@@ -309,7 +344,7 @@ class AppComponent extends React.Component {
 			}
 			let imgFigure = (
 				<ImageFigure
-					key={index}
+					key={"img-figure" + index}
 					data = {value}
 					ref={'imgFigure' + index}
 					arrange={this.state.imgsArrangeArr[index]}
@@ -317,7 +352,18 @@ class AppComponent extends React.Component {
 				    inverse={this.inverse(index)}
 				/>
 			);
-			imageFigures.push(imgFigure)
+			
+			let controllerUtil = (
+				<ControllerUtils
+					key={"utils-figure" + index}
+				    arrange={this.state.imgsArrangeArr[index]}
+					center={this.center(index)}
+					inverse={this.inverse(index)}
+				/>
+			);
+			
+			imageFigures.push(imgFigure);
+			controllerUnits.push(controllerUtil);
 		}.bind(this));
 		
 		return (
